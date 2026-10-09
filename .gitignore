@@ -2,6 +2,9 @@
 .godot/
 /android/
 
+# Exported game builds (the .exe is shared separately, not committed)
+build/
+
 # Godot 3 leftovers
 .import
 logs/
