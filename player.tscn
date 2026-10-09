@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://ceuu150fmggvr"]
+
+[ext_resource type="PackedScene" uid="uid://d0ypm0v45pwdv" path="res://art/player.glb" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://cnd3r3qyfy5so" path="res://player.gd" id="1_onrkg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q0aaa"]
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_q0aaa"]
+height = 0.2630005
+radius = 1.0341797
+
+[sub_resource type="Animation" id="Animation_onrkg"]
+resource_name = "float"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.22, 0.7, 1.18),
+"transitions": PackedFloat32Array(0.435275, 2.21914, 1),
+"update": 0,
+"values": [Vector3(0, 0.329753, 0), Vector3(0, 0.660351, 0), Vector3(0, 0.349734, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.46, 1.18),
+"transitions": PackedFloat32Array(0.482968, 0.535887, 1),
+"update": 0,
+"values": [Vector3(-5.0326, 0, 0), Vector3(10, 0, 0), Vector3(-10, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i3pqv"]
+_data = {
+&"float": SubResource("Animation_onrkg")
+}
+
+[node name="Player" type="CharacterBody3D" unique_id=539857801]
+collision_mask = 6
+script = ExtResource("1_onrkg")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=198474565]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+
+[node name="Character" parent="Pivot" unique_id=1861090479 instance=ExtResource("1_4flbx")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1734181505]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+shape = SubResource("SphereShape3D_q0aaa")
+
+[node name="MobDetector" type="Area3D" parent="." unique_id=1514552090]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector" unique_id=621395679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+shape = SubResource("CylinderShape3D_q0aaa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=322087564]
+libraries/ = SubResource("AnimationLibrary_i3pqv")
+autoplay = &"float"
+
+[connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]

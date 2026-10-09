@@ -1,0 +1,7 @@
+# Godot 4+ cache folder (regenerated automatically when the project is opened)
+.godot/
+/android/
+
+# Godot 3 leftovers
+.import
+logs/
